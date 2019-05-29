@@ -21,7 +21,7 @@ def sym_val_2(a, b):
 		if aux != -1:
 			sym.append(aux)
 	# print(sym)
-	return(max(sym, key=abs) if len(sym) else 0)
+	return(max(sym) if len(sym) else 0)
 
 def sym_val_full(a, b):
 	#escolhe máximo entra sym_val_2 para
