@@ -1,0 +1,30 @@
+➜  bioinfo git:(master) ✗ python run.py
+abc cdef
+1
+abc fg
+0
+abc fghi
+0
+abc da
+-1
+cdef fg
+1
+cdef fghi
+1
+cdef da
+1 ****THIS VALUE IS WRONG****
+fg cdef
+-1
+fg fghi
+2
+fg da
+0
+fghi cdef
+-1
+fghi fg
+-2
+fghi da
+0
+[1, -1, 1, 1, 1, -1, 2, -1, -2]
+['abc', 'abc', 'cdef', 'cdef', 'cdef', 'fg', 'fg', 'fghi', 'fghi']
+['cdef', 'da', 'fg', 'fghi', 'da', 'cdef', 'fghi', 'cdef', 'fg']
