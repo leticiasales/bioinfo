@@ -70,7 +70,7 @@ def main():
 	for (u, v, wt) in G.edges.data('weight'):
 		print('(%s, %s, %d)' % (u, v, wt))
 
-	plt.subplot(123)
+	plt.subplot(121)
 	nx.draw(G, with_labels=True, font_weight='bold')
 	plt.show()
 
@@ -80,3 +80,4 @@ def main():
 		#peso da aresta é dado pelo sym_val
 
 	# return find_longest_path(g)
+main()
