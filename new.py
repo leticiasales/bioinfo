@@ -12,17 +12,25 @@ def frag(seq):
 	#em posições aleatórias de suas sequências
 	return ['abc', 'cdef', 'fg', 'fghi', 'da']
 
-def get_overlap(s1, s2):
-    s = difflib.SequenceMatcher(None, s1, s2)
-    pos_a, pos_b, size = s.find_longest_match(0, len(s1), 0, len(s2)) 
-    return size
+def sym_val_2(a, b):
+	#procurar pela existência de casamento 
+	#entre o sufixo de a e o prefixo de b
+	sym = []
+	for i in range(len(b)):
+		aux = a.find(b[i:])
+		if aux != -1:
+			size = len(b[i:])
+			sym.append(-1 * size)
+		aux = a.find(b[:i])
+		if aux != -1:
+			size = len(b[:i])
+			sym.append(size)
+	return(max(sym, key=abs) if len(sym) else 0)
 
 def sym_val_full(a, b):
 	#escolhe máximo entra sym_val_2 para
 	#a e b e sym_val_2 para b e a
-  # print(get_overlap(a,b))
-  # print(get_overlap(b,a))
-  return get_overlap(a, b)
+  return sym_val_2(a, b)
 
 def find_relevant(frags):
 	#para todo par (a, b) chama sym_val_full(a, b)
@@ -40,7 +48,6 @@ def find_relevant(frags):
 					dest.append(frags[y + 1])
 	return(sym, orig, dest)
 
-
 def main():
 	#lê sequencia
 	seq = 'abcdefghi'
@@ -51,13 +58,8 @@ def main():
 	#encontra relevantes
 	sym, orig, dest = find_relevant(frags)
 
-	# print(sym)
-	# print(orig)
-	# print(dest)
-
 	# create graph g
 	G = nx.MultiDiGraph()
-	plt.subplot(121)
 
 	for i in range(len(sym)):
 		G.add_weighted_edges_from([(orig[i], dest[i], sym[i])])
@@ -67,10 +69,10 @@ def main():
 
 	for (u, v, wt) in G.edges.data('weight'):
 		print('(%s, %s, %d)' % (u, v, wt))
-		
+
+	plt.subplot(123)
 	nx.draw(G, with_labels=True, font_weight='bold')
 	plt.show()
-
 
 	#para todos os contigs
 		#add contigs no grafo G como vértice 
@@ -78,5 +80,3 @@ def main():
 		#peso da aresta é dado pelo sym_val
 
 	# return find_longest_path(g)
-
-main()
