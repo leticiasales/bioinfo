@@ -62,7 +62,10 @@ def main():
 	G = nx.MultiDiGraph()
 
 	for i in range(len(sym)):
-		G.add_weighted_edges_from([(orig[i], dest[i], sym[i])])
+		if(sym[i] < 0):
+			G.add_weighted_edges_from([(dest[i], orig[i], abs(sym[i]))])
+		else:
+			G.add_weighted_edges_from([(orig[i], dest[i], abs(sym[i]))])
 		#g_o = find_or_create(graph g, orig[i])
 		#g_d = find_or_create(graph g, dest[i])
 		#create_edge(from: g_o, to: g_d, peso: sym[i])
