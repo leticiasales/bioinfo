@@ -10,7 +10,13 @@ def frag(seq):
 	#faz uma quebra aleatória do DNA
 	#resultando em várias cópias quebradas 
 	#em posições aleatórias de suas sequências
-	return ['abc', 'cdef', 'fg', 'fghi', 'da']
+	# file = open('in.txt')
+	# frags = []
+	# for line in file:
+	# 	for n in line.split("\n"):
+	# 		frags.append(n)
+	frags = ["abc", "gbf", "cefg"]
+	return frags
 
 def sym_val_2(a, b):
 	#procurar pela existência de casamento 
@@ -18,34 +24,61 @@ def sym_val_2(a, b):
 	sym = []
 	for i in range(len(b)):
 		aux = a.find(b[i:])
-		if aux != -1:
-			size = len(b[i:])
+		size = len(b[i:])
+		if aux != -1 and (aux == 0 or aux == len(a) - size):
 			sym.append(-1 * size)
 		aux = a.find(b[:i])
-		if aux != -1:
-			size = len(b[:i])
+		size = len(b[:i])
+		if aux != -1 and (aux == 0 or aux == len(a) - size):
 			sym.append(size)
 	return(max(sym, key=abs) if len(sym) else 0)
+
+# tamanho da substring encontrada é
+	# adicionar pra ignorar quando estiver
+	# mais longe da borda do que é o tamanho
 
 def sym_val_full(a, b):
 	#escolhe máximo entra sym_val_2 para
 	#a e b e sym_val_2 para b e a
-  return sym_val_2(a, b)
+	return sym_val_2(a, b)
 
 def find_relevant(frags):
 	#para todo par (a, b) chama sym_val_full(a, b)
 	#se o retorno for maior que min_val
 	#e diferente de 100%
 	#adiciona a e b no valor de retorno
-	sym=[];orig=[];dest=[];
+	sym=[];orig=[];dest=[];ign=[];
 	for x in range(len(frags) - 1):
 		for y in range(len(frags) - 1):
 			if x != (y + 1): 
 				aux = sym_val_full(frags[x], frags[y + 1])
+				if aux >= len(frags[x]):
+					ign.append(frags[x])
+				if aux >= len(frags[y + 1]):
+					ign.append(frags[y + 1])
 				if abs(aux) > min_val:
 					sym.append(aux)
 					orig.append(frags[x])
 					dest.append(frags[y + 1])
+	for item in ign:
+		try: 
+			while(orig.index(item)):
+				# print(orig)
+				index = orig.index(item)
+				del orig[index]
+				del dest[index]
+				del sym[index]
+				# print(orig)
+		except: pass
+		try:
+			while(dest.index(item)):
+				# print(dest)
+				index = dest.index(item)
+				del orig[index]
+				del dest[index]
+				del sym[index]
+				# print(dest)
+		except: pass
 	return(sym, orig, dest)
 
 def main():
@@ -57,6 +90,10 @@ def main():
 	
 	#encontra relevantes
 	sym, orig, dest = find_relevant(frags)
+
+	# print(sym)
+	# print(orig)
+	# print(dest)
 
 	# create graph g
 	G = nx.MultiDiGraph()
@@ -76,6 +113,8 @@ def main():
 	plt.subplot(121)
 	nx.draw(G, with_labels=True, font_weight='bold')
 	plt.show()
+
+	print(nx.dag_longest_path(G))
 
 	#para todos os contigs
 		#add contigs no grafo G como vértice 
