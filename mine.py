@@ -10,12 +10,12 @@ def frag(seq):
 	#faz uma quebra aleatória do DNA
 	#resultando em várias cópias quebradas 
 	#em posições aleatórias de suas sequências
-	# file = open('in.txt')
-	# frags = []
-	# for line in file:
-	# 	for n in line.split("\n"):
-	# 		frags.append(n)
-	frags = ["abc", "gbf", "cefg"]
+	file = open('in.txt')
+	frags = []
+	for line in file:
+		for n in line.split("\n"):
+			frags.append(n)
+	# frags = ["abc", "gbf", "cefg"]
 	return frags
 
 def sym_val_2(a, b):
@@ -99,16 +99,25 @@ def main():
 	G = nx.MultiDiGraph()
 
 	for i in range(len(sym)):
+		H = G.copy()
 		if(sym[i] < 0):
-			G.add_weighted_edges_from([(dest[i], orig[i], abs(sym[i]))])
+			try:
+				H.add_weighted_edges_from([(dest[i], orig[i], abs(sym[i]))])
+				nx.find_cycle(H, orientation='original')
+			except:
+				G = H.copy()
 		else:
-			G.add_weighted_edges_from([(orig[i], dest[i], abs(sym[i]))])
+			try:
+				H.add_weighted_edges_from([(orig[i], dest[i], abs(sym[i]))])
+				nx.find_cycle(H, orientation='original')
+			except:
+				G = H.copy()
 		#g_o = find_or_create(graph g, orig[i])
 		#g_d = find_or_create(graph g, dest[i])
 		#create_edge(from: g_o, to: g_d, peso: sym[i])
 
-	for (u, v, wt) in G.edges.data('weight'):
-		print('(%s, %s, %d)' % (u, v, wt))
+	# for (u, v, wt) in G.edges.data('weight'):
+	# 	print('(%s, %s, %d)' % (u, v, wt))
 
 	plt.subplot(121)
 	nx.draw(G, with_labels=True, font_weight='bold')
