@@ -134,7 +134,10 @@ def main():
 
 	gem += path[len(path) - 1]
 
-	print(gem)
+	# print(gem)
+	file = open('out.txt', "w")
+	file.write(str(gem))
+	file.close()
 	#para todos os contigs
 		#add contigs no grafo G como vértice 
 		#orientação das arestas é dada pela ordem do casamento
