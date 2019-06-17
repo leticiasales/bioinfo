@@ -119,12 +119,22 @@ def main():
 	# for (u, v, wt) in G.edges.data('weight'):
 	# 	print('(%s, %s, %d)' % (u, v, wt))
 
-	plt.subplot(121)
-	nx.draw(G, with_labels=True, font_weight='bold')
-	plt.show()
+	# plt.subplot(121)
+	# nx.draw(G, with_labels=True, font_weight='bold')
+	# plt.show()
 
-	print(nx.dag_longest_path(G))
+	path = nx.dag_longest_path(G)
 
+	# print(path)
+
+	gem = ""
+
+	for i in range(len(path) - 2):
+		gem += path[i][:sym_val_full(path[i], path[i+1])]
+
+	gem += path[len(path) - 1]
+
+	print(gem)
 	#para todos os contigs
 		#add contigs no grafo G como vértice 
 		#orientação das arestas é dada pela ordem do casamento
