@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 
 min_val = 0
 
-def frag(seq):
+def frag():
 	#le arquivo in.txt e considera cada linha um fragmento
 	file = open('in.txt')
 	frags = []
@@ -72,7 +72,7 @@ def find_relevant(frags):
 
 def main():
 	#lê sequencia a partir de arquivo
-	frags = frag(seq)
+	frags = frag()
 	
 	#encontra relevantes
 	sym, orig, dest = find_relevant(frags)
@@ -120,9 +120,6 @@ def main():
 
 	gem += path[len(path) - 1]
 
-<<<<<<< HEAD
-	print(gem)
-=======
 	# print(gem)
 	file = open('out.txt', "w")
 	file.write(str(gem))
@@ -131,6 +128,5 @@ def main():
 		#add contigs no grafo G como vértice 
 		#orientação das arestas é dada pela ordem do casamento
 		#peso da aresta é dado pelo sym_val
->>>>>>> abc7567a6249d1f9f2b682675757609ab7dd9867
 
 main()
